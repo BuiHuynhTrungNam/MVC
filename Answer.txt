@@ -1,0 +1,184 @@
+Java Garbage Collection
+
+Garbage Collection là kỹ thuật được sử dụng trong Java để phân bổ hoặc loại bỏ các đối tượng không thể truy cập và bộ nhớ không sử dụng
+Garbage Collection theo dõi từng đối tượng có sẵn trong không gian heap JVM (lưu trữ các object sau khi khởi tạo bằng "new" và "static") và loại bỏ những object không sử dụng.
+Có nhiều thuật toán áp dụng trong Garbag collection, ở đây em có tìm hiểu 2 cái:
+1/ Mark-and-Sweep (đánh dấu và quét)
+Trong thuật toán này có 2 giai đoạn chính là Mark và Sweep:
+1.1/ Mark phase:
+Khi 1 object được khởi tạo, nó sẽ được đánh dấu là 0 (false)
+Thuật toán sẽ quét qua toàn bộ các object có thể truy cập (reachable or can refer to) và đánh dấu là 1
+Cách quét sử dụng Deep first search (trong cấu trúc giải thuật), chọn 1 node (object) làm gốc và search cho tất cả những object nó có thể truy cập, tương ứng vs từng object có thể truy cập thì đánh dấu là 1
+1.2/ Sweep phase:
+Ở giai đoạn này, tất cả những object được đánh dấu là 0 sẽ bị xóa khỏi heap
+Sau đó set toàn bộ object về 0 (false) và tiếp tục thực hiện lại Mark phase
+
+2/ Oracle Hotspot:
+Đầu tiên, các Object không được tham chiếu sẽ được đánh dấu sẵn sàng để được dọn rác. 
+Ở bước thứ hai, trình thu gom rác sẽ tiến hành xóa các Object đó. 
+Ở bước thứ ba, vùng nhớ của các Object còn lại sẽ được "nén" lại và nằm liền kề nhau trong bộ nhớ Heap. Quá trình này sẽ giúp việc cấp phát bộ nhớ cho Object mới dễ dàng hơn.
+Heap được chia làm 3 vùng nhớ nhỏ hơn, là Young generation, Old generation và Permanent generation.
++) Young generation: được chia thành nhiều vùng nhớ nhỏ hơn là Eden(khởi tạo) và Survivor(sống sót). Các Object vừa được khởi tạo sẽ nằm ở vùng Eden, sau chu kì quét đầu tiên nếu Object đó còn tồn tại thì sẽ được chuyển sang vùng Survivor. Tại đây cái Object được GC theo dõi liên tục, nếu  như qua nhiều chu kì quét mà Object vẫn còn được sử dụng thì lúc này Object sẽ được chuyển sang vùng nhớ thứ thứ hai.
++) Old generation: là nơi chứa những Object tòn tại đủ "lâu", còn "lâu" như thế nào thì lại tùy thuộc vào thuật toán của từng bộ GC.
++) Permanent generation: không chứa Object mà đây là nơi để chứa các metadata của JVM như các class và method của ứng dụng. Do đó nếu các class và method không còn được sử dụng nữa thì GC sẽ coi chúng là "rác" và dọn dẹp nó.
+
+
+Iterable vs Iterator:
+Iterable: 
+    +) Là 1 interface thuộc về java.lang.package,  đại diện cho 1 series các elements CÓ KHẢ NĂNG LẶP(be iterated over)
+    +) Cho phép sử dụng forEach để lặp qua các phần tử ==> cung cấp 1 method là iterator() để thực hiện việc này (các class có interable buộc phải override interator() method)
+    +) Iterable không chứa iteration state (vd như current element) ==> mỗi khi interator() trong iterable dc gọi, iterable sẽ cung cấp 1 instance iterator() mới, vì các interator() maintain lại các iteration state (nó sẽ không work nếu cung cấp 1 iterator 2 lần)
+    +) Không chứa các method có thể chỉnh sửa (modify) elements
+ Iterator:
+    +) Là 1 interface thuộc về java.util.package, cho phép chúng ta LẶP qua các elements hay xóa (retrieve/ remove) ==> cung cấp hasNext() và next() để lặp qua các elements(các class có iterator buộc phải override hasNext() và next())
+    +) Có chứa iteration state => cung cấp các method để lấy current element, kiểm tra có next element không, ... (iterator sẽ nhớ position hiện tại)
+    +) Iterator có method modify các elements như remove()
+
+Thread vs Process
++) Một chương trình  được thực thi thường được xem như 1 process (heavyweight task). Một thread là một subset của process (lightweight task)
++) Một process bao gồm nhiều thread. Thread là phần nhỏ nhất của process có thể thực thi đồng thời với các thread khác của process
++) Một process có không gian địa chỉ riêng, variables, signal handlers,... riêng. Một thread sử dụng không gian địa chỉ của process và chia sẻ nó với các thread khác của process đó.
++) Một thread có thể giao tiếp trực tiếp vs các thread khác (cùng process) bằng cách sử dụng các method như wait(), notify(), ... Một process chỉ có thể giao tiếp vs các process khác bằng interprocess communication (pipe/socket) (expensive and limited)
++) Time để create thread nhanh hơn process
++) Các luồng có thể kiểm soát lẫn nhau trong cùng 1 process. 1 Process không thể kiểm soát các process khác cùng cấp (chỉ kiểm soát dc các process con của nó)
++) Process-based multitasking và thread-based multitasking có thể chạy 2 hoặc nhìu hơn các process và thread 1 cách đồng thời
+
+Volatile in Java
+Từ khóa volatile được sử dụng để đánh dấu một biến Java là "đã được lưu trữ trong bộ nhớ chính". Chính xác hơn có nghĩa là, mọi lần đọc biến volatile sẽ được đọc từ bộ nhớ chính của máy tính chứ không phải từ bộ đệm CPU và mọi hành động ghi vào biến volatile sẽ được ghi vào bộ nhớ chính chứ không chỉ ghi vào bộ đệm CPU .
+Biến volatile đảm bảo khả năng đồng bộ giá trị biến trên các luồng. Ví dụ, trong một ứng dụng đa luồng trong đó các luồng hoạt động sử dụng biến non-volatile. Vì lý do hiệu năng mỗi luồng có thể sao chép các biến từ bộ nhớ chính vào bộ đệm CPU trong khi làm việc với chúng. Nếu máy tính của chúng ta chứa nhiều CPU, mỗi luồng có thể chạy trên một CPU khác nhau. Điều đó có nghĩa là, mỗi luồng có thể sao chép các biến vào bộ đệm CPU của các CPU khác nhau (hình dưới)
+=> 1 biến non-volatile nếu dc nhìu thread sử dụng cùng 1 lúc => không có gì đảm bảo khi nào giá trị của biến được ghi từ bộ đệm CPU vào bộ nhớ chính => giá trị của biến trong CPU và bộ nhớ chính có thể KHÔNG GIỐNG NHAU, dấn đến sự cập nhập giá trị biến của một thread không được các thread khác biết đến (hình dưới)
+=> với từ khóa volatile, sự thay đổi biến trong 1 thread sẽ ngay lập tức được ghi vào bộ nhớ chính. Ngoài ra, tất cả các hành động đọc biến sẽ được đọc từ bộ nhớ chính => dữ liệu khớp vs nhau
+VẪN còn 1 vấn đề là nếu nhìu thread cùng đọc và ghi 1 lúc => tạo ra sự không đồng bộ cho dù có là volatile => cần kèm thêm sync để đảm bảo đọc và ghi là duy nhất
+
+JVM in Java:
+JVM (Java Virtual Machine) là 1 máy ảo java – nó được dùng để thực thi các chương trình Java hay hiểu đơn giản là trình thông dịch của Java. Nó cung cấp môi trường để code java có thể được thực thi. Chương trình Java khi biên dịch sẽ tạo ra các mã máy gọi là bytecodes. 
+Mỗi hệ điều hành chạy chương trình của nó ứng với một mã máy khác nhau đó là mã bytecodes, ví dụ Windows được biên dịch dưới dạng exe còn Linux là .ELF ...
+=> Mỗi nền tảng/hệ điều hành khác nhau (Windows, Android, Linux…) lại có một loại JVM khác nhau được cài đặt --> Java đa nền tảng, thực chất thì nó được hỗ trợ JVM trên nhiều nền tảng. Chương trình Java chạy được trên Window/Linux/IOS vì nó có JVM chạy được trên các nền tảng đó
+JVM có 3 mục đích chính:
++) Dịch mã java ra mã máy chạy được trên các hệ điều hành khác nhau
++) Tăng tốc độ
++) Nâng cao độ bảo mật và tránh virus phá source code
+Thành phần của JVM:
++) Class Loader: Tìm kiếm và load các file *.class vào vùng nhớ của java dưới dạng bytecode
++) Data Area : vùng nhớ hệ thống cấp phát cho Java Virtual Machine
++) Execution Engine: chuyển các lệnh của JVM trong file *.class thành các lệnh của máy, hệ điều hành tương ứng và thực thi chúng.
+
+Các bước thực thi code của JVM:
++) Tải code (các class, resource)
++) Kiểm tra code (kiểm tra code có đúng cú pháp không, có bị lỗi không,...)
++) Thực thi code
++) Cung cấp môi trường runtime
+
+Cụ thể như sau (hình sau)
+Sau khi Classloader tìm và load các file .class, các file này sẽ được máy ảo JVM cung cấp bộ nhớ tương ứng với chúng.
+
++) Class (Method) area: là vùng nhớ cấp phát cho class(Method) trong đó lại phân chia thành heap, stack, PC register, native method stack
++) Heap: Đây là khu vực dữ liệu thời gian chạy trong đó các đối tượng được phân bổ.
++) Stack : Các phương thức và tham chiếu tới đối tượng địa phương được lưu trữ trong Stack. Mỗi Thread quản lý một stack. Khi phương thức được gọi, nó được đưa vào đỉnh của Stack. Stack lưu trữ trạng thái của phương thức bao gồm: dòng code thực thi, tham chiếu tới đối tượng địa phương. Khi phương thức chạy xong, vùng nhớ (dòng code thực thi, tham chiếu tới đối tượng địa phương) được đẩy ra khỏi stack và tự động giải phóng.
++) PC register (Program Counter Register) : Nó chứa địa chỉ của các máy ảo Java hướng dẫn hiện đang được thực hiện.
++) Native Method Stack: Nơi chứa tất cả các method native trong chương trình
++) Execution Engine: Nó bao gồm: Một bộ xử lý ảo, một phiên dịch để đọc dòng bytecode sau đó thực hiện các hướng dẫn và cuối cùng là trình biên dịch Just-In-Time (JIT). JIT biên dịch các phần của mã byte có chức năng tương tự như cùng một lúc, và do đó làm giảm số lượng thời gian cần thiết cho compilation.*Thuật ngữ: trình biên dịch là đề cập đến như một dịch giả từ những hướng dẫn của một máy ảo Java (JVM) cho các tập lệnh của CPU cụ thể.
+
+
+Springboot: IoC, DI, Bean
+1/ IoC:
+Inversion of Control (IoC) là quá trình các object định nghĩa dependencies của nó mà k cần tạo ra các dependencies đó. Việc destructing các dependencies đó sẽ giao lại cho IoC container
+Spring IoC Container là lõi chính của Spring framework, nó tạo ra các objects, configures và dependencies, quản lý life cycle. Container này dùng dependency injection (DI) để quản lý các component tạo nên application
+
+vd: 
+Address address = new Address("High Street", 1000);
+Company company = new Company(address);
+-> cách làm này k sai, nhưng nếu trong app có hàng nghìn class, việc share 1 instance giữa các class hay cần 1 instance riêng cho từng class sẽ tạo ra vấn đề lớn trong việc quản lý các class
+=> dùng IoC: thay vì tự xây dựng các dependencies, một object có thể lấy các dependencies của nó từ IoC container. Tất cả những gì cần làm là cung cấp cho cotainer những configuration metadata thích hợp.
+2/ Dependency injection
+Đầu tiên, khi mà class A sử dụng một số chức năng của class class B, thì có thể nói là class A có quan hệ phụ thuộc với class B (dependency)
+Nhưng trc khi ta có thể sử dụng method của class khác, ta phải khởi tạo một object của class đấy (hay A cần phải tạo 1 thực thể của B).
+=> việc chuyển giao nhiệm vụ khởi tạo object đó cho một ai khác và trực tiếp sử dụng các dependency đó được gọi là dependency injection.
+3/ Life Cycle:
+
+3/ Bean & Bean life cycle
+Java beans: là classes dùng để đóng gói các object vào trong cùng 1 single object (beam), mục tiêu là create reusable software component
+Spring beans: thì đơn giản là 1 instance object bình thường, nhưng nó dc quản lý bởi IoC, cụ thê là object này dc tạo và "wiring", nhét vào 1 cái "Túi chứa object" (IoC container), code trong application có thể lấy các object từ trong cái túi này ra dùng
+*wiring: kiểu là khi mình nói "I need this thing" thì cái framework sẽ follow theo 1 số rules và trả ra cho mình proper instance tương ứng
+
+Bean Life cycle (Hình 4):
+1/ Khi IoC Container (ApplicationContext) tìm thấy một Bean cần quản lý, nó sẽ khởi tạo bằng Constructor
+2/ inject dependencies vào Bean bằng Setter, và thực hiện các quá trình cài đặt khác vào Bean như setBeanName, setBeanClassLoader, v.v..
+3/ Hàm đánh dấu @PostConstruct được gọi
+4/ Tiền xử lý sau khi @PostConstruct được gọi.
+5/ Bean sẵn sàng để hoạt động
+6/ Nếu IoC Container không quản lý bean nữa hoặc bị shutdown nó sẽ gọi hàm @PreDestroy trong Bean
+7/ Xóa Bean.
+
+Notify() & interrupt() & wake up a sleeping thread
+monitor object là một khối code truy cập vào các object được sử dụng bởi nhiều thread, chúng được bảo vệ bởi synchronized để đảm bảo rằng chỉ có 1 thread truy cập vào object tại cùng một thời điểm
+Notify(): Tất các các thread đang chờ trên cùng một object monitor sẽ được đánh thức bất kỳ khi notify() method được gọi (nghĩa là các thread đang waiting), sẽ không có một thứ tự cụ thể cho các thread được đánh thức, nó hoàn toàn do bộ lập lịch của hệ điều hành
+Interrupt(): interrupt chọn 1 thread cụ thể và interrupt không yêu cầu thread đó phải đang waiting trên monitor
+
+Wake up a thread
++) Wait and sleep
+.wait(): method này dùng cho thread sync (chỉ call dc khi trong sync block), nó sẽ release lock trên object => các thread khác có thể jump vào để acquire dc lock
+thread.sleep(): là static method, có thể call từ bất kỳ đâu, sleep pause thread hiện tại và k release lock
++) Wake up
+nếu là Wait(), có thể dùng notify() hoặc notifyAll() để wakeup
+nếu là sleep(), thread sẽ tự bắt đầu lại sau 1 khoảng thời gian interval, nếu k nó sẽ interrupt
+
+
+Reason using more threads:
++) làm cho application nhanh hơn nhờ làm nhìu thứ hơn 1 cách song song
++) Sử dụng full sức mạnh của CPU
++) phục vụ cho nhìu người dùng tại 1 thời điểm (cải thiện time to service)
++) Giảm thời gian phản hồi
+Chi phí cho tạo thread:
+Tùy thuộc vào JVM, trong thực tế tạo 1 threac cần cung cấp 1 lượng stack memory (khoảng 256KB as default). 
+Thêm vào đó là thread à implement ủa OS vì vậy nếu create new thread thì cần OS call và register
+Các bộ mô tả cần được tạo, khởi tạo và thêm vào cấu trúc dữ liệu nội bộ JVM.
+Em tìm được 1 đoạn code trên mạng, ngta tính tổng thời gian để tạo ra 1 thread mới, rơi vào khoảng ~70 µs
+
+
+
+Java stream vs For Loop:
+Lợi ích khi dùng stream thay cho for loop:
++) Giả sử phải thao tác trên 1 tập dữ liệu rất lớn, việc dùng for loop sẽ không hiệu quả vì cần rất nhiều vùng nhớ, vùng nhớ sẽ bị phình rất to chỉ để dùng cho việc "lặp" (). Nhưng với stream(), các phương thức hỗ trợ trong iterable/iterator sẽ chỉ quan tâm tới phần tử hiện tại của vòng lặp => chỉ cần dùng rất ít bộ nhớ, cả thiện được vấn đề bộ nhớ
++) Stream hỗ trợ lambda nên có nhìu cái thấy nó khá là tiện khi code
++) stream dễ đọc hơn
++) stream nó có tính thứ tự cao, làm việc trừu tượng hơn
+Ngược lại stream() sẽ chạy chậm hơn for loop vì for loop truy cập trực tiếp (O(1) cho array), còn stream sẽ phải pass data từ chỗ này qua chỗ khác (tốn thêm "cost communication")
+
+Index in Database:
+Nếu 1 databse có n dòng -> nếu có 1 query check xem 1 giá trị có trong database k, thì trong trường hợp xấu nhất cần duyệt qua tất cả các dòng -> O(n)
+Nếu data trong database được lưu trữ theo thứ tự, có thể dùng binary search để giảm thời gian tìm kiếm (log(n) vì cứ 1 tầng sẽ bỏ 1 nhánh => log). Nhưng việc insert hay delete 1 dòng vẫn cần thao tác O(n)
+=> dùng B tree (cả thời gian search, insert, delete đều là O(log(n))), B tree sẽ đóng vai trò như mục lục để tra cứu data nhanh hơn (mục lục vao gồm 2 phần chính: số trang và lật tới trang tương ứng để có data)
+B tree: là cấu trúc dữ liệu theo dang câu sao cho key của node con bên trái k được lớn hơn parrent, và parrent phải nhỏ hơn node con bên phải. Có 2 cấu trúc chính dùng trong database là B-tree và B+tree, khác biệt duy nhất chính là toàn bộ giá trị của B+tree được lưu ở node lá.
+Index hoạt động: 
+Giả sử có database sau (hình 1)
+Tìm số trang: (hình 2)
++) Giả sử thứ cần search ở đây là tên => tên là cột name trong database => hệ thống sẽ tìm index tương ứng với name đó trong B-tree => Key + index sẽ được xem như số trang để hệ thống tìm kiếm data (O(log(n)))
+Lật đến trang tương ứng lấy data (hình 3)
++) Theo index đã có từ bước "số trang", tìm đến nơi và lấy data tương ứng trong cấu trúc B+tree (log(n))
+
+==> tổng thời gian cần là O(log(n) + log(n)) = O(log(n))
+Cấu trúc B-tree và B+tree được lưu trong Pages (Pages for indexing và Pages to store records)
+
+Clustered Index: Cho phép dánh dấu chỉ mục cho 1 trường duy nhất
+Compound index: Compound indexes cho phép ta đánh dấu chỉ mục cho nhiều trường
+
+Transaction/ ACID
+Transaction (giao dịch) là 1 đơn vị logic trong database, có thê truy cập, chỉnh sửa dữ liệu của database ( dùng read và write operation)
+Đại loại khi có nhìu Transaction chạy cùng lúc, sẽ có rất nhiều vấn đề xảy ra, vd như T1 đang write trên bảng A thì T2 write đè lên bảng A hay T1 read data bảng A trong khi T1 chưa write xong trên bảng A,...
+Các loại trường hợp này gây ra vấn đề như nghẽn băng thông, treo database, deadlock,....
+=> Xử lý bằng nhìu phương pháp như xây dựng bộ lập lịch, xác định thứ tự ưu tiên,...
+
+ACID (viết tắt của Atomicity, Consistency, Isolation, Durability): Dùng đánh giá csdl, đối với một cơ sở dữ liệu đáng tin cậy tất cả bốn thuộc tính cần đạt được.
+
+Atomicity là một đề xuất tất cả hoặc không có gì. Tính chất này đảm bảo rằng khi một giao dịch liên quan đến hai hay nhiều xử lý, hoặc là tất cả các xử lý được thực hiện hoặc không có xử lý được thực hiện.
+Consistency đảm bảo rằng một giao dịch không bao giờ được thông qua cơ sở dữ liệu trong tình trạng dở dang. Tính chất này, hoặc là tạo ra toàn bộ trạng thái mới hoặc rollback tất cả các xử lý để về trạng thái ban đầu, nhưng không bao giờ thông qua cơ sở dữ liệu trong trạng thái dở dang.
+Isolation giữ giao dịch tách rời nhau cho đến khi chúng đã hoàn tất. Tính chất này đảm bảo rằng hai hoặc nhiều giao dịch không bao giờ được trộn lẫn với nhau, tạo ra dữ liệu không chính xác và không phù hợp.
+Durability đảm bảo rằng cơ sở dữ liệu sẽ theo dõi các thay đổi cấp phát trong một cách mà các máy chủ có thể phục hồi từ một sự kết thúc bất thường. Tính chất này đảm bảo rằng trong trường hợp thất bại hay dịch vụ khởi động lại các dữ liệu có sẵn trong  trước khi gặp lỗi
+
+
+
+
+
+
+

@@ -1,0 +1,1377 @@
+1/ GIT & GITHUB
+
+*Revert merge pull request
+    git checkout master/main 
+    git log --oneline
+    git reset <id commit> --hard
+    git add .
+    git push origin master -f
+
+git config user.name "..."
+git config user.email "..."
+git config color.ui = auto
+git init .
+git status
+git add . # git rm -r --cached .
+git add filename # git rm --cached filename
+git commit -m "..."
+git log (xem commit) => xem dc unique code
+git show uniqueCode
+
+if file is commited but changed after that => change file in commit area same with changed file
+git diff
+git add
+git commit
+
+git restore filename (ignore)
+
+git commit --amend -m"..." (change current commit message)
+
+
+SSH key
+
+git push -u origin main (first time)
+
+git push
+
+git pull
+
+master == main branch (default branch)
+
+if having many branch => merge to default branch
+
+git branch (check branch)
+
+create branch with copy from default branch
+git branch name (just in local)
+
+git checkout branchName (swich branch)
+
+git push --set-upstream origin branchName == git push -u origin branchName (push remote branch)
+
+
+create and checkout: git checkout -b branchName
+delete branch: git branch -d branchName
+
+
+merge in UI of github
+compare & pull request OR new pull request (choose branch to merge)
+
+
+conflict same branch (remote vs local)
+
+git pull (auto merge remote vs local)
+
+=> fix conflict
+=> add + commit + push (fix conflict just change a file and push to remote -> local dont change)
+
+
+conflict main is different with first commit, and different with other branch
+Rebase: bring all change in current branch, and put it on master branch
+
+git pull --rebase origin main (git pull -r origin main )
+fix conflict (remote main vs local main)
+git add .
+git rebase --continue
+fix conflict (remote main with other local branch)
+git add .
+git rebase --continue
+fix conflict (remote main with other remote branch)
+git add .
+git rebase --continue
+when come here, (just fix conflict main with other remote branch), remote still dont know whats happen in local -> fix conflict file dont match remote
+git push -f
+=> merge on github UI
+
+
+2/ CONVENTIONAL COMMIT
+This convention dovetails with SemVer
+
+Structure:
+    <type>[optional scope]: <description>
+
+    [optional body]
+
+    [optional footer(s)]
+
+fix: a commit of the type fix patches a bug in your codebase (this correlates with PATCH in Semantic Versioning).
+feat: a commit of the type feat introduces a new feature to the codebase (this correlates with MINOR in Semantic Versioning).
+BREAKING CHANGE: a commit that has a footer BREAKING CHANGE:, or appends a ! after the type/scope, introduces a breaking API change (correlating with MAJOR in Semantic Versioning). A BREAKING CHANGE can be part of commits of any type.
+types other than fix: and feat: are allowed, for example @commitlint/config-conventional (based on the the Angular convention) recommends build:, chore:, ci:, docs:, style:, refactor:, perf:, test:, and others.
+footers other than BREAKING CHANGE: <description> may be provided and follow a convention similar to git trailer format.
+
+
+3/ NEW PROJECT IN INTELLIJ
+
+run program
+package into jar file 
+run jar file
+
+
+4/ JAVA COURSE
+
+JDK: Development tools[ JRE: Libraries and classess [JVM: java virtual machine]]
+
+Byte code: use for JVM understanding (view -> show bytecode)
+    javac name.java
+    java name
+
+package: a structure to group classes
+difference between primitive and non-primitive: pointer
+int [] number = new int[3]
+int [] number = {1,2,3}
+
+Array.stream(nameArray).forEach(System.out::println)
+
+Scanner scanner = new Scanner(System.in)
+String a = scanner.nextLine() // nextInt,....
+
+
+
+5/ Rest API
+
+Web app communicate with cloud base via rest API
+Rest: representational state transfer
+restful: service to communicate use rest API
+Benefit
+    Simple and Standardized approach to communicate => do not need format data, request,...
+    Scalable and stateless: easy make modification when service grows complexity, stateless: dont worry about what data is, which state of data, keep track across client and service
+    High performance, cache
+equivalent CRUD with http:
+create --> post
+read --> get
+update --> put
+delete --> delete
+
+respond: json
+
+
+Why do we need RESTful?
+    The use of Restful API will help programmers easily decide to choose the URL and HTTP method to use when building the application (know exactly where we will go), but also help the application users (web service API) have a clear view about the architecture of the system.
+Why is RESTful API stateless? 
+    Simply In REST applications, each request must contain all of the information necessary to be understood by the server, rather than be dependent on the server remembering prior requests.
+    Storing session state on the server violates the stateless constraint of the REST architecture. So the session state must be handled entirely by the client.
+    easy make modification when service grows complexity, stateless: dont worry about what data is, which state of data, keep track across client and service
+What are the benefits of it? 
+    Simple and Standardized approach to communicate => do not need format data, request,...
+    It provides a great deal of flexibility
+    High performance, cache
+    equivalent CRUD with http:
+    create --> post
+    read --> get
+    update --> put
+    delete --> delete
+
+6/ Functional programming with java stream api
+
+Stream: 
+    an abstration
+    inperative to fucntional programming
+    use with collection
+
+Use:
+    1/ start with collection
+    2/ from it self (ex: list.stream()) -> have many stream
+        (fileter, map, reduce,...)
+    3/ back to concrete implementation (back to list, array,...)
+        (sum, clooect, average,...) -> terminal operators
+
+List<String> name - List.of("askdj","askldj","skadj")
+Stream<String> stream = names.stream() // == Stream<String> abc = Stream.of("ajkshd","sajhd","ajksd")
+
+Can use dot to use multi method
+
+Map: able to transfer from 1 data type to another
+
+
+7/ JAVA DATA STRUCTURE 
+
+Array: from java.util.arary, fixed size
+    int[] a = new int[3] // int [] a = {1,2}
+    Arrays.toString(arrayName) --> println
+2D Array:
+    char[][] a = new char[3][3]// char[][] a = new char[][]{new char[]{...}, new char[]{...}, new char[]{...}}
+    Arrays.deepToString(arrayName)
+List: collection, not fixed size, duplicate
+    List a = new ArrayList()//differnt type
+    List<String> a = new ArrayList<>()//same type
+    .contains()
+    List.of() => immutable, cant modify
+StacK: LIFO
+    Stack<Integer> a = new Stack<>();// a.push()
+    a.peek()// return last element
+Queue: FIFO
+    a.peek()// return first element
+    a.poll() //remove first element
+Linked list:
+    LinkedList<> a = new LinkedList<>()
+    a.listInterator().hasNext // >< hasPrevious()
+    a.listInterator().next() // >< previous()
+Set: no duplicate, dont know what is inside, no order -> can not get index
+    Set<> a = new HashSet<>() //TreeSet
+    cant get element// can use forEach
+Map interface: 
+    key-value pair, 1h17p
+Map: Key cant duplicate, each key can map at most 1 value
+    Map<Integer, Person> a = new HashMap<>()
+    a.put(key, value) // override value if duplicate key
+    a.get(key)
+    a.keySet()  //all key set
+    a.entrySet() //all value set
+
+8/ INTRODUCE SPRING BOOT
+Is one of frameworks
+Read document
+Spring core
+    Spring MVC
+        web service
+        http
+        rest api
+    Scheduling
+    spring boot: make easy to build microservices
+        Testing
+        Database
+
+9/ POSTMAN - API Testing (postman.com)
+    tool for interacting with web based api
+    api as outlet, postman is a plugin by internet
+    easy to send and get from server
+    server don not have UI -> need postman
+    https://simple-books-api.glitch.me/status => https://simple-books-api.glitch.me: address of api, status: endpoint
+
+    1/ HTTP: Request & respond
+    2/ Postman collection & variables
+        collection: is a list of multiple requests, they are all connected to the same API
+         variable: address api -> variable
+            initial value: use for share with people (public)
+            current value: private
+    3/ Query parameters:
+        {{baseUrl}}/books?type=crime => ?type=crime is parameters
+    4/ Assignment
+        {{baseUrl}}/books?type=fiction?limit=2 => limit=2: filter 2 books (1-20)
+    5/ Path variable
+        GET books/:bookID (books/1)
+    6/ POST request
+        having body, using athoriztion, token
+            API authentication
+                purpose of registation is get access token -> use it for request
+                in body, choose raw (JSON)
+    7/ JSON format
+    8/ Random test data
+        "customerName": "{{$randomFullName}}"
+        console in post man
+    9/ Patch request
+        Similar to list order (body has name change)
+    10/ Delete request
+        Similar to list order (body is empty)
+    11/ API test
+    Tests -> write test => send => test result
+        pm.test("Status code is 200", function () {
+            pm.response.to.have.status(200);
+        });
+
+        const response = pm.response.json();
+        console.log(response['status'])
+
+        pm.test("Status should be OK", ()=>{
+            pm.expect(response.status).to.eql("OK");
+        })
+    12/ Postman variables
+        create global variable to save some data
+    13/ Extracting data from the response
+
+        pm.test("Status code is 200", function () {
+            pm.response.to.have.status(200);
+        });
+
+        const response = pm.response.json();
+        const nonFiction = response.filter((book) => book.available === true)
+        const book = nonFiction[0]
+
+        if(book){
+        pm.globals.set("bookID", nonFiction[0].id);
+        }
+
+        pm.test("Book found",()=>{
+            pm.expect(book).to.be.an('object')
+            pm.expect(book.available).to.be.true
+            pm.expect(book.available).to.eql(true)
+        });
+    10/ INTELLIJ Shortcut
+        Alt + enter: to fix anything (show content action)
+        F2: jump to next error
+        Alt + 1: project window -> use arrow key/enter name to search
+        Esc: focus on editor
+        Ctrl + E: view recent file
+        Ctrl + B: go to declaration 
+        ALt + F7: find usage
+        Ctrl x2: Run anything
+        Shift + Ctrl + W: Extend selection
+        Ctrl + /: add/remove comment
+        Shift + Ctrl + Enter: Complete current statement
+        Ctrl + Alt + L: Reformat File
+        Shift + Ctrl + Alt + T: Refactor
+        Shift + Ctrl + A: Find action
+        Shift x2: Search
+
+    11/Spring boot
+        resource/
+            properties: config properties for all (connect to database)
+            static & template: html, css, js,..
+        Thymeleaf: View engine
+        Hibernate: Mapping class
+        JPA: a standard set of java to work with db
+        @Transient: auto calc (import javax.persistence.*) --> setter and set
+        @RequestBody
+        In function in interface -> to determine what sql will be used -> @Query("SELECT s FROM STUDENT s WHERE...")
+
+        server.error.include-message=always (properties file)
+        repo.existById(id)
+        Packaging and running
+            maven->clean 
+            maven->install
+            target folder: having .jar file
+            running:
+                cd target
+                java -jar nameJar //--server.port=...
+            Validation/BindingResult
+            @Configuration/@Bean 
+            
+
+
+docker compose up -d 
+docker compose down
+
+    12/ logging in spring boot
+        spring-boot-starter-web => spring-boot-starter-logging => spring-jcl
+        logging is built-in with many Spring "starter" dependencies
+        LoggerFactory.getLogger() for Logger instance
+        Uses LogBack by default (but can be changed)
+        Configuration using:
+            Application property values
+            XML file with naming convention
+    
+    13/ Open API 3 & Spring Boot
+        Open API:
+            is an API description format for rest api
+            allow to describe different endpoint of API, operation parameter input/output, authentication method,...
+            can be written in yaml or json
+        springdoc-openapi: open java library help to generate API document using spring boot project
+        integration with spring-web:
+            For spring-web project, they just need to add the springdoc-openapi dependency
+            All the spring-mvc annotations are by default supported: @RequestParam, @PathVariable, @RequestBody,...
+            And also ignores default spring-mvc types (HttpServletRequest, HttpServletResponse,...)
+            +) Spring-web
+            +) Spring-webflux
+            +) Spring-hateoas
+            +) Spring-security and OAuth 2.0
+    14/ OAuth2
+        OAuth: 
+            Open Authentication or Open Authorization, là một phương thức xác thực các ứng dụng có thể chia sẻ tài nguyên với nhau mà không cần chia sẻ thông tin về username và password như những cách truyền thống. 
+            Với nghĩa Open Authentication nghĩa là xác thực người dùng thông qua việc đăng nhập. Còn với nghĩa là Open Authorization nghĩa là cấp quyền để có thể truy cập vào các resource do đó nếu chúng ta có 1 tài khoản Facebook thì có thể truy cập vào được nhiều ứng dụng khác nhau mà không cần đăng ký một tài khoản mới của ứng dụng đó.
+        OAuth2:
+            Resoure Owner: là chủ sở hữu của dữ liệu mà ta muốn chia sẻ. Ví dụ bạn muốn chia sẻ các thông tin như email, ngày sinh, giới tính, địa chỉ cho một trang web nào đó thì chúng ta có thể đăng nhập trang web đó bằng Facebook thì những thông tin như email, ngày sinh, giới tính và địa chỉ là những tài nguyên cần chia sẻ và Resource Owner lúc này chính là bạn
+            Resource Server: là server lưu trữ những thông tin mà ta chia sẻ. Server này phải có khả năng nhận và trả lời các yêu cầu (request) truy xuất dữ liệu. Như ở ví dụ trên của chúng ta thì resource server chính là Facebook.
+            Client: Là những ứng dụng muốn sử dụng những tài nguyên mà ta chia sẻ. Và chúng ta có thể thấy là ở ví dụ trên Client sẽ là trang web muốn các thông tin cá nhân của ta.
+            Authorization Server: Là đối tượng quyết định việc cấp quyền truy cập vào dữ liệu cho client. Như trong ví dụ trên, đây chính là authorization server của Facebook. Đôi khi resource server và authorization server có thể là một , nhưng về mặt chức năng mà nói, đây là 2 chức năng hoàn toàn riêng biệt.
+        How it works:
+            Sau khi đã tìm hiểu xong các khái niệm cơ bản trên, chúng ta cùng tìm hiểu cách hoạt động của OAuth2 nhé. Khi bạn đăng nhập với Facebook (Google) thì trang web sẽ dẫn bạn tới trang của Facebook hoặc Google và liệt kê một số các quyền trang web đó muốn bạn chia sẻ. Như ví dụ ở trên thì website sẽ yêu cầu bạn cung cấp các thông tin như email, ngày sinh, giới tính, địa chỉ. Nếu bạn đồng ý cung cấp những thông tin đó thì mới có thể đăng nhập để sử dụng các dịch vụ của website đó.
+            Khi bạn đồng ý cung cấp các quyền đó, Facebook sẽ sinh ra một AccessToken cho các quyền đó và website đấy có thể sử dụng được. Do đó nếu có kẻ xấu muốn đánh cắp tài khoản của bạn từ website kia thì cũng chỉ lấy được những thông tin đó mà không lấy đưoc tài khoản của bạn, không ảnh hưởng tới các ứng dụng khác bạn đang sử dụng.
+
+            1/ Ứng dụng yêu cầu ủy quyền để truy cập vào Resource Server (Gmail,Facebook, Twitter hay Github…) thông qua User
+            2/ Nếu User ủy quyền cho yêu cầu trên, Ứng dụng sẽ nhận được ủy quyền từ phía User (dưới dạng một token string)
+            3/ Ứng dụng gửi thông tin định danh (ID) của mình kèm theo ủy quyền của User tới Authorization Server
+            4/ Nếu thông tin định danh được xác thực và ủy quyền hợp lệ, Authorization Server sẽ trả về cho Ứng dụng access_token. Đến đây quá trình ủy quyền hoàn tất.
+            5/ Để truy cập vào tài nguyên (resource) từ Resource Server và lấy thông tin, Ứng dụng sẽ phải đưa ra access_token để xác thực.
+            6/ Nếu access_token hợp lệ, Resource Server sẽ trả về dữ liệu của tài nguyên đã được yêu cầu cho ứng dụng đó.
+    15/ ResponseEntity
+        ResponseEntity provides two nested builder interfaces: HeadersBuilder and its subinterface, BodyBuilder. Therefore, we can access their capabilities through the static methods of ResponseEntity.
+
+    16/ Init Database
+    17/ Lombok
+        java record can do pretty much thing that lombok does, but it's immutable
+        record: private finnal, getter, public constructor, equals, hashcode and to string
+
+    18/ Relationship
+	19/ fetch = FetchType.LAZY tức là khi bạn find, select đối tượng Company từ database thì nó sẽ không lấy các đối tượng Employee liên quan
+		fetch = FetchType.EAGER tức là khi bạn find, select đối tượng Company từ database thì tất cả các đối tượng Employee liên quan sẽ được lấy ra và lưu vào listEmployee
+
+
+
+
+
+FRONT END:
+    1/ CSS Layout and Position
+        position:
+            Static: default, put content in normal flow in document
+            Relative: retain space
+            Fixed: do not move, using with with,...
+            Absolute: Absolute relative, take it out from normal document flow (lose space), if use with % => maintain space between elements
+            Sticky: mix static and fix 
+
+            .banner .welcome => welcome is child of banner 
+            em: take current value and times n(em)
+
+            z-index: set more -> bring to front, set less -> bring to back
+            Thuộc tính display:block có tác dụng xác định thành phần hiển thị theo các hàng độc lập.
+            span trong HTML là một thẻ xác định xuống dòng khi độ dài của nó vượt quá chiều rộng được cho phép, còn không nó sẽ không xuống dòng
+            display: inline có tác dụng xác định thành phần được hiển thị theo chiều ngang (không ngắt dòng khi chiều rộng vẫn nhỏ hơn chiều rộng của màn hình)
+            display: inline-block có tác dụng xác định các thành phần sẽ được hiển thị theo khối nhưng là các khối inline.
+            white-space: xác định space
+            box-border
+    2/ Chrome devtool
+        place "debugger" to create breakpoint
+        event debug XHR/fetch breakpoint in sources tab
+        pause on exception
+        snippest: execute code and save
+    3/ TypeScript
+       can be executed by JS on browser
+       browser cant execute TypeScript
+       TS --> compiled to JS
+       Type: //*any: for all type
+            number
+            string
+            bolean
+            object:
+                const person = {name: "nam",....}
+            array: string[]
+            tuple: fixed length and type [number, string]
+            enum
+            any
+            Union type:
+                input1: number | string (need to check type)
+            Literal type
+            Type Aliases
+            Return type: function abc(): void{}
+            Function type and callbacks
+            Unknown type: is not assignabe
+            Never type: never return anything
+        Auto compile ts: tsc filename --watch
+        Compile entire project:
+            tsc --init //in folder contains all files
+            tsc //compile all tsc file
+            *tsc -w //auto compile for all tsc file
+        exclude and include: change in tsconfig.json  => exclude and include ts files
+        complitation target
+        library
+        source map: view ts file on browser
+        outDir and rootDir: choose dir for in/out js file
+        Debug
+    
+REACT: A JavaScript library for building user interfaces
+    Declarative - Component-Based - Learn Once, Write Anywhere
+    Building Single-Page-Application
+    
+    1/ A Simple Component: 
+        React components implement a render() method that takes input data and returns what to display
+        Input data that is passed into the component can be accessed by render() via this.props.
+    2/ A Stateful Component: 
+        In addition to taking input data (accessed via this.props), a component can maintain internal state data (accessed via this.state). 
+        When a component’s state data changes, the rendered markup will be updated by re-invoking render().
+    3/ A Component Using External Plugins:
+        React allows you to interface with other libraries and frameworks.
+    4/  npx create-react-app name
+        npm start
+    5/ JSX = Javascript + XML. Nó transform cú pháp dạng gần như XML về thành Javascript. Giúp người lập trình có thể code ReactJS bằng cú pháp của XML thay vì sử dụng Javascript;
+        using {} to put value into JSX
+        can use JSX inside of if statements and for loops, assign it to variables, accept it as arguments, and return it from functions
+    6/ Render
+        An element describes what you want to see on the screen
+        “root” DOM node because everything inside it will be managed by React DOM.
+        To render a React element, first pass the DOM element to ReactDOM.createRoot(), then pass the React element to root.render():
+                const root = ReactDOM.createRoot(
+                    document.getElementById('root')
+                );
+                const element = <h1>Hello, world</h1>;
+                root.render(element);
+        React elements are immutable
+    7/ Components and Props
+        Conceptually, components are like JavaScript functions. They accept arbitrary inputs (called “props”) and return React elements describing what should appear on the screen.
+        The simplest way to define a component is to write a JavaScript function:
+                function Welcome(props) {   //function components
+                return <h1>Hello, {props.name}</h1>;
+                }
+        
+        Can also use an ES6 class to define a component:
+                class Welcome extends React.Component {
+                    render() {
+                        return <h1>Hello, {this.props.name}</h1>;
+                    }
+                }
+        Elements can also represent user-defined components: const element = <Welcome name="Sara" />;
+        When React sees an element representing a user-defined component, it passes JSX attributes and children to this component as a single object. We call this object “props”.
+        Components can refer to other components in their output
+    8/ State and Lifecycle
+        State is similar to props, but it is private and fully controlled by the component:
+            create constructor having declare this.state=...
+        Mouting: setup somethings for 1st render to DOM                         //componentDidMount
+        Unmouting: Clear somethings when DOM producted by it is removed         //componentWillUnmount
+            => Mouting + Unmouting = Lifecycle
+        componentDidMount() method runs after the component output has been rendered to the DOM
+
+        While this.props is set up by React itself and this.state has a special meaning, you are free to add additional fields to the class manually if you need to store something that doesn’t participate in the data flow
+        state:
+            Do Not Modify State Directly:
+                this.state.comment = 'Hello';   //wrong
+                => this.setState({comment: 'Hello'});
+            State Updates May Be Asynchronous:
+                To fix it, use a second form of setState() that accepts a function rather than an object. That function will receive the previous state as the first argument, and the props at the time the update is applied as the second argument:
+                    this.setState((state, props) => ({
+                        counter: state.counter + props.increment
+                    }));
+            State Updates are Merged:
+                tate may contain several independent variables => can update them independently with separate setState() calls
+        The Data Flows Down:
+            Neither parent nor child components can know if a certain component is stateful or stateless, and they shouldn’t care whether it is defined as a function or a class.
+            This is why state is often called local or encapsulated. It is not accessible to any component other than the one that owns and sets it.
+            This is commonly called a “top-down” or “unidirectional” data flow. Any state is always owned by some specific component, and any data or UI derived from that state can only affect components “below” them in the tree.
+    9/ Handling event
+        React events are named using camelCase, rather than lowercase. With JSX you pass a function as the event handler, rather than a string:
+            <button onClick={activateLasers}>
+                Activate Lasers
+            </button>
+        cannot return false to prevent default behavior in React. must call preventDefault explicitly
+        generally don’t need to call addEventListener to add listeners to a DOM element after it is created. Instead, just provide a listener when the element is initially rendered.
+        if you refer to a method without () after it, such as onClick={this.handleClick}, you should bind that method.
+        if calling bind annoys you, there are two ways you can get around this:
+            class fields
+            arrow function
+        Passing Arguments to Event Handlers
+    9/ Conditional Rendering
+        Use JavaScript operators like if or the conditional operator to create elements representing the current state, and let React update the UI to match them
+        Inline If with Logical && Operator:
+            true && expression always evaluates to expression, and false && expression always evaluates to false.
+            Therefore, if the condition is true, the element right after && will appear in the output. If it is false, React will ignore and skip it.
+        Inline If-Else with Conditional Operator:
+            render() {
+                const isLoggedIn = this.state.isLoggedIn;
+                return (
+                    <div>
+                    {isLoggedIn
+                        ? <LogoutButton onClick={this.handleLogoutClick} />
+                        : <LoginButton onClick={this.handleLoginClick} />
+                    }
+                    </div>
+                );
+            }
+        In rare cases you might want a component to hide itself even though it was rendered by another component. To do this return null instead of its render output.
+            function WarningBanner(props) {
+                if (!props.warn) {
+                    return null;
+                }
+
+                return (
+                    <div className="warning">
+                    Warning!
+                    </div>
+                );
+            }
+    10/ List and keys
+        Rendering Multiple Components:
+            const numbers = [1, 2, 3, 4, 5];
+            const listItems = numbers.map((numbers) =>
+                <li>{numbers}</li>
+            );
+        Keys:
+            Keys help React identify which items have changed, are added, or are removed. Keys should be given to the elements inside the array to give the elements a stable identity:
+                const numbers = [1, 2, 3, 4, 5];
+                const listItems = numbers.map((number) =>
+                    <li key={number.toString()}>
+                        {number}
+                    </li>
+                );
+            When you don’t have stable IDs for rendered items, you may use the item index as a key as a last resort
+        JSX allows embedding any expression in curly braces
+    11/ Forms
+        React state be the “single source of truth”. Then the React component that renders a form also controls what happens in that form on subsequent user input. 
+        An input form element whose value is controlled by React in this way is called a “controlled component”.
+        The textarea Tag:
+            In React, a <textarea> uses a value attribute instead. This way, a form using a <textarea> can be written very similarly to a form that uses a single-line input
+        The select Tag
+        The file input Tag: Because its value is read-only, it is an uncontrolled component in React
+    12/ Lifting up state
+    13/ Hook:
+        import React, { useState } from 'react';
+        function Example() {
+        // Declare a new state variable, which we'll call "count"
+        const [count, setCount] = useState(0);
+
+        return (
+            <div>
+            <p>You clicked {count} times</p>
+            <button onClick={() => setCount(count + 1)}>
+                Click me
+            </button>
+            </div>
+        );
+        }
+
+        Hooks là những hàm cho phép bạn “kết nối” React state và lifecycle vào các components sử dụng hàm.
+    14/ side Effect: 
+        side effect là những hành động event có thể làm thay đổi DOM trong react components
+        đơn giản bạn có một thẻ input khi bạn thay đổi giá trị input nó sẽ không những thay đổi giá trị bên trong nó mà còn thay đổi giá trị của những biến giá trị hay components khác ngoài nó
+    15/ useEffect: 
+        một function kết hợp 3 trạn thái life cycle trong react là mount, update và unmount
+
+            import React, { useState, useEffect } from 'react';
+
+            function FriendStatus(props) {
+            const [isOnline, setIsOnline] = useState(null);
+
+            useEffect(() => {
+                function handleStatusChange(status) {
+                setIsOnline(status.isOnline);
+                }
+
+                ChatAPI.subscribeToFriendStatus(props.friend.id, handleStatusChange);
+                // Specify how to clean up after this effect:
+                return function cleanup() {
+                ChatAPI.unsubscribeFromFriendStatus(props.friend.id, handleStatusChange);
+                };
+            });
+
+            if (isOnline === null) {
+                return 'Loading...';
+            }
+            return isOnline ? 'Online' : 'Offline';
+            }
+        Ngoài ra còn vài cái Hooks khác như:
+            useContext
+            useReducer
+            useCallback
+            useMemo
+            useRef ...
+    16/ Optimize Hook (Skipping effect)
+            useEffect(() => {
+                document.title = `You clicked ${count} times`;
+            }, [count]);
+
+            thêm vào một paramters thứ hai là một mảng. 
+            Hooks sẽ thiết lập tham số thứ hai nhận vào các state ở dạng là phần tử của một array. 
+            Nếu ta truyền vào một state như trên là count thì effects đó chỉ thật sự chạy lại khi có sự thay đổi của state có tên là count còn không thì function này sẽ không chạy lại.
+
+            Nếu truyền vào mang rỗng => chỉ chạy useEffect 1 lần
+    17/ index.js is file running first
+    18/ Router dom react
+        React-Router là một thư viện định tuyến (routing) tiêu chuẩn trong React. Nó giữ cho giao diện của ứng dụng đồng bộ với URL trên trình duyệt. 
+        React-Router cho phép bạn định tuyến "luồng dữ liệu" (data flow) trong ứng dụng của bạn một cách rõ ràng. 
+        Nó tương đương với sự khẳng định, nếu bạn có URL này, nó sẽ tương đương với Route này, và giao diện tương ứng.
+        BrowserRouter vs HashRouter
+
+            Route: Định nghĩa một ánh xạ (mapping) giữa một URL và một Component. Điều đó có nghĩa là khi người dùng truy cập theo một URL trên trình duyệt, một Component tương ứng sẽ được render trên giao diện.
+                <Router>
+                    <div className="App">
+                        <Route path="/" exact component={Home} />
+                        <Route path="/about" component={About} />
+                        <Route path="/contact" component={Contact} />
+                        <Route component={NotFound}/>
+                    </div>
+                </Router>
+            path: Là đường dẫn trên URL.
+            exact: giúp cho route này này chỉ hoạt động nếu URL trên trình duyệt phù hợp tuyệt đối với giá trị của thuộc tính path của nó.
+            component: Là component sẽ đươc load ra tương ứng với Route đó.
+        
+        Link: Để chuyển hướng đó là thẻ <a></a> thì trong react chúng ta sẽ dử dụng cặp thẻ <Link></Link> được import từ React-Router. K request => change component
+            <Link to="/about">About</Link>
+        NavLink: NavLink thì rất giống với Link về cách sử dụng, nhưng NavLink tốt hơn vì nó hỗ trợ thêm một số thuộc tính như là activeClassName và activeStyle 2 thuộc tính này giúp cho khi mà nó trùng khớp thì nó sẽ được active lên và chúng ta có thể style cho nó.
+            <NavLink exact activeStyle={{
+                backgroundColor : 'white',
+                color : 'red'
+            }} to="/" className="my-link">Trang Chu</NavLink>
+        Custom Link
+        Match:
+            Khi bạn muốn lấy một số thông tin ở trên URL thì bạn có thể dùng đối tượng match để lấy dữ liệu về. Tại cấu hình Router ta chỉ cần truyền thêm đối tượng match vào component mà cần sử dụng đối tượng match
+        Prompt: Xác nhậ trc khi chuyển trang
+            import {Prompt} from 'react-router-dom';
+            <Prompt 
+                when={true} // true | false
+                message={ (location) => (`Ban chac chan muon di den ${location.pathname}`) }
+            />
+        Redirect
+    19/ Loop in react:
+    // {[<li>Item1</li>, <li>Item2</li>]}
+
+            {DUMMY_DATA.map((meetup)=>{
+                return <li> {meetup.title} </li>
+            })}
+    20/ props.children
+    21/ useRef
+    22/ useNavigate (update of useHistory)
+    23/ useHistory:
+        useHistory dùng bình thường trong BrowserRouter, trong Router thì cần:<Router history={createBrowserHistory()}>
+    24/ use useEffect to prevent infinity loop
+    25/ createContext
+    *26/ useReducer
+    27/ fetching data:
+        Fetch API là một API đơn giản cho việc gửi và nhận requesst bằng js. Với fetch thì việc thực hiện các yêu cầu web và xử lý phản hồi dễ dàng hơn so với XMLHttpRequest cũ.
+    28/ useForm()
+    const {register, handleSubmit formState: {errors}} = userForm<type>();
+
+    <form
+      onSubmit={handleSubmit((data) => {
+        console.log(data);
+      })}
+    >
+    input {...register("typename")}
+    </form>
+    29/ React queries:
+        npm i react-Query
+        const {data, status } = useQuery('planets', fetchPlanets)// ket/name - function to wrap data
+
+        data.result
+
+        second time load: using caching data, but in background refetching, if data from refetching is different to caching => update
+        query variable: pass to function can access:
+            const fetchPlanets = async (key, greeting, page) => {
+            const res = await fetch(`http://swapi.dev/api/planets/?page=${page}`);
+            return res.json();
+            }
+
+            const Planets = () => {
+            const [ page, setPage ] = useState(1);
+            const { data, status } = useQuery(['planets', 'hello, ninjas', page], fetchPlanets);    //1st parameter is key
+    30/ ReactQueryDevtools: a box for watch
+        contorl reload of data
+SERVER SIDE RENDERING AND CLIENT SIDE RENDERING
+    Server-side rendering (SSR):
+        Người dùng gửi một yêu cầu tới website( Thông thường thông qua trình duyệt)
+        Phía server kiểm tra và chuẩn bị nội dung HTML sau khi đã đi qua một lượt các script có trong trang web
+        Các đoạn HTML đã được biên dịch được gửi tới trình duyệt của người dùng cho việc render.
+        Trình duyệt tải về HTML và làm các trang có thể nhìn thấy với người dùng
+        Trình duyệt sau đó tải về Javasciprt(JS) và tiến hành thực thi JS, nó làm cho trang web có thể tương tác
+        https://images.viblo.asia/full/5627c9c6-680f-444e-b95f-cb003003c4f9.png
+    Client-side rendering (CSR):
+        Người dùng gửi request tới webiste
+        Thay vì một server, một con CDN có thể được sử dụng để gửi HTML, CSS và các file hỗ trợ cho người dùng.
+        Trình duyệt tải HTML và JS trong khi nhìn thấy một biểu tượng loading
+        Sau khi trình duyệt lấy JS về, nó sẽ tạo các yêu cầu API thông qua Ajax và lấy về các nội dung động và xử lí chúng để render ra nội dung cuối cùng.
+        Sau khi server phản hồi, nội dung cuối cùng sẽ được render sử dụng quá trình xử lí DOM trên trình duyệt người dùng.
+        https://images.viblo.asia/full/8bb0712f-0108-4fc5-8960-a9d6b6d5b701.png
+
+NEXTJS:
+    frameworks for creating pre-rendered react websites
+    offers us both SSR  & static site generation
+    Route base on the way organize file and folder in pages folder
+    component is another folder (create manually) and import in file in pages => use normally
+    Link:
+        import Link from 'next/link'
+        <Link href=""> <a>sajdgjsda</a></Link>
+    Each page will load 1st time and save in caching, if reoad => using .js in caching
+    Layout file:
+        create layout.js
+        wrap all things in MyApp
+        props children in layout.js, {children} in layout.js will in the middle of other component
+    Adding style:
+        style/globals.css: apply for all, import in _app.js and auto use
+        for each page components: import in each component
+            filename.module.css: className = {style.className}
+    Customize 404 error page:
+        create 404.js (special name such as index.js) and custom
+    Redirect user:
+        useEffect + usRoute
+    Path: 
+        "/..." => find in public folder
+        using Image => need to set width and height: load when scrolling to this point
+    Metadata: Head is imported in index.js
+        using head to change title, name, content... in <head> Tag
+    Fetching data:
+        export const getStaticProps = async()=>{}   //run at build time
+    Dynamic routes: /abc/:id
+        name file: [id].js => understand that this is folder/:id
+    Vercel: deploy
+    useRoute: use to get params
+    Pre-rendering:
+	Nextjs generates HTML for each page in advance instead of having it all done by client-side javascript
+        +) Static generation: html pages are generated at build time and reuse for each request
+        server-side rendering
+        getStaticProps: 
+            runs only on the server-side, is allowed only in a page and cannot run from a regular comonent file, only use for pre-rendering and not client-side fetching
+            should return an object and object should contain a props key which is an object*
+            run at build time
+        getStaticPath: use when link dynamic:
+            fallback: false => the path return from getStaticPath will be rendered to html at build time by getStaticProps, any path do not return from getStaticPath -> 404
+            fallback: true => 
+                the path return from getStaticPath will be rendered to html at build time by getStaticProps, any path do not return -> serve a fallback version of the page on the first request to such page
+                will generate the request path HTML and JSON, this include running getStaticProps
+                *dont reload when update
+            fallback: 'blocking' => similar to true, *dont reload when update
+        Incremental Static Regeneration: allow to update static page after you've built your app
+        revalidate: 10 (in getStaticProps)
+        +) Server-side Generation: nextjs allow to re-render a page not at build time but at request time, HTML is generated for every incoming page
+            export async function getServerSideProps(){
+                const response = await fetch(...)
+                const data = await response.json()
+                return {
+                    props: {
+                        articles: data,
+                    }
+                }
+            }
+        context:
+            const {params, req, res} = context
+        Cookie:
+            A cookie is an amount of information that persists between a server-side and a client-side. A web browser stores this information at the time of browsing.
+            A cookie contains the information as a string generally in the form of a name-value pair separated by semi-colons. It maintains the state of a user and remembers the user's information among all the web pages.
+    Client-side data fetching: not in pre-render 
+
+    SWR: 
+        const fetcher = async () => {
+            const response = await fetch(...)
+            const data = await response.json()
+            return data
+        }
+        function DashboardSWR(){
+            const { data, error } = useSWR(uniqueKey, fetcher)
+            if (error) return "akjdklasjd"
+            if(!data)   return "loading"
+
+            return (
+                <div>
+                ...data....
+                </div>
+            )
+        }
+        
+    Event listing page (38):
+        SEO + Request time data fetching -> server-side rendering with getServerSideProps
+        Client-side data fetching for filtering events
+
+    API route:
+        define all API in api folder (pages/api)
+        export handler function as default
+            in api/index
+            export default function handler (req, res){
+                res.status(200).json({ name: "kdakjdhjad"}) => localhost:3000/api ==> get json
+            }
+        GET
+        POST
+        use [[]].js if delete index file
+    Styling Section:
+        SASS: 
+        CSS in JS: <h2 style={{color: red}}>asadasd</h2>
+        condition to show layout (56)
+    Header: use <Head> tag
+    Path: change relative path to absolute
+        create jsconfig.json
+            {
+                "compilerOptions":{
+                    "baseUrl": ".",
+                    "path":{
+                        "@/layout/*": ["components/layout/*"]
+                    }
+                }
+            }
+    environment variable
+    
+
+
+
+
+
+JAVASCRIPT:
+    Datatype: string, number, undefined, null, boolean, symbol: immutable value, object
+    var, let, const
+    \': single quote
+    \": double quote
+    \\: blackslash
+    \n: new line
+    \r: carriage return
+    \t: tab
+    \b: backspace
+    \f: form feed
+    name.length: string size
+    name[0]: first element
+    string immutability: can not change value of element //name[0] = "a => error
+    var arr = ["john", 1] => arr[0]...
+    arr.push(["abc", 2]) => arr["john", 1, ["abc", 2]]
+    arr.pop() => remove last element and return its value
+    arr.shift() => remove first element and return its value
+    arr.unshift() => add new element in first
+    function abc(a, b){
+        return a+b;
+    }
+    typeof abc => check type
+    JSON.stringify(arr) //change array to string
+    ==: try to convert to common type and compare
+    ===: compare in value and type
+    object: 
+        var person = {
+            "name": "nam",
+            "age": 12
+            "friend abc": ["ajksdhkasd"]
+        }
+        => person.name
+        => person["friend abc"]
+    add new properties to object: person.new = "ajkhdjks //person["new"] = "ajksdh"
+    delete properties: delete person.name
+    check props of object: person.hasOwnProperty(property) => return true/false
+    parseInt("00101",2) //2 => binary number
+
+    let: dont let delare variable twice while var allow it, scope just in a block statement
+    var: global or local in function
+    const array: const arr = [...] => arr = [...]//error, arr[0] = 1 //allow
+    Prevent mutate: Object.freeze(person)
+    Anonymose function:
+        var magic = function(){     //do not have a name 
+            return 1
+        }
+        
+        --> remove function keyword:
+        var magic = () => {
+            return 1
+        }
+
+        --> if return 1 keyword 
+        var magic = () =>  1
+        --> with parameter
+        var magic = (a,b) => a + b; 
+
+        --> if just have 1 argument => remove ()
+         arr.filter(num=>Number.isInteger(num) && num > 0).map(x => x*x)
+    rest operator:
+        instead (x,y,z) => (...args) //convert all arguments into 1 Array
+    spread operator:
+        to advoid copying array => arr1 = [...arr2]
+    destructing argument: use key of object to assign value
+    Import and require
+    Use * to import all things
+        import * as abc from ...
+    Closure: If return a function => everything in its scope will be hold and reuse 
+    Function currying: transform a function with multiple arguments into a subsequence of nesting function that take 1 argument at a time
+    Determine "this":
+        implicit binding:
+            const person = {
+                name: "ajksdh",
+                sayMyName: function (){
+                    console.log(this.name)
+                }
+            }
+            person.sayMyName();
+
+        Explicit binding:
+            const person = {
+                name: "ajksdh",
+                sayMyName: function (){
+                    console.log(this.name)
+                }
+            }
+            function sayMyName(){
+                console.log(this.name)
+            }
+            sayMyName.call(person)  //call person => this
+
+        New binding:
+            function Person(name){
+                this.name = name
+            }
+            const p1 = new Person("askdh")  //this = {} => this.name = name is add new props
+        
+        Default binding:
+
+    Prototypes:
+        function Person(firstName, lastName){....}
+        try to add new function in Person, all instance can use it
+        Person.prototype.getFullName() = function()  => {
+            ....
+        }
+    Prototypal inheritance:
+        function ABC(a, b){
+            Person.call(this, a, b) // ABC is inheritance attribute from Person
+        }
+        ABC.prototype = Object.create(Person.prototype) //ABC is inheritance prototype from Person  
+        ABC.prototype.constructor = ABC
+
+    Iteration: 
+        An object that implements the interable protocal is called  an interable 
+        for an object to be an interable it must implement a method at key [Symbol.iterator], next() method with 2 props: value and done
+        for(const item of arr)  console.log(item)
+            const obj = {
+                [Symbol.iterator]: function(){
+                    let step = 0
+                    const iterator = {
+                        next: function (){
+                            step++
+                            if(step === 1)  return {value: "hello", done: false}
+                            else return {value: "world", done: true}
+
+                            return {value: undefined, done: true}
+                        }
+                    }
+                    return iterator
+                }
+            }
+
+            => for (const word of obj) {....}
+    Genarator:
+        normal function: do not stop until finish last line in code
+        generator function: can stop and continue, use "yield" key word
+            function* generatorFunction(){
+                yield 'Hello'
+                yield 'World'
+            }
+            const generatorObject = generatorFunction()
+            for(const word of generatorObject)  console.log(word)       //similar to iterator
+            //generatorObject.next().value
+    
+    Asynchronous:
+        JS is Sync, blocking, single thread language
+        Timeout & Intervals
+            const a = setTimeout(function, duration,...): function execute a particular block of code once after a specified time has elapsed
+            clearTimeout(a) //delete setTimeout
+            const b = setInterval(function, duration,...) function run the same code over and over again at regular interval
+            clearInterval(b)
+            => duration is a minimum delay, not guaranteed delay
+        Callbacks: 
+            Any function that is passed as argument to another function is called callbacks function in JS
+            The function that accept a function as argument or return a function is called a higher order function
+            Sync: A callback which is execute immediately is called a sync callback
+            Async: 
+                An async callback  is a callback that is often used to continue or resume code execution after an async operation has completed
+                callbacks are used to delay the execution of a function until a particular time or event has occured
+            Promise:
+                Callback execute when promise success/failure
+                is simply object in JS, always in 1 of 3 status
+                    pending: which is initial state, neither fulfilled nor rejected
+                    fulfilled: success
+                    rejected: failure
+                Create promise:
+                    const promise = new Promise()
+                Fulfilled or rejected promise:
+                    contructor of promise accept 1 function as argument
+                    resolve: change status from pending to fulfilled --> .then() is executed
+                    reject: change status from pending to failure --> .catch() is executed
+                        const promise = new Promise((resolve, reject) => {  //resolve and reject are functions, are called after async operation
+                            setTimeout(()=>{
+                                resolve("abcde")
+                            }, 5000)
+                        })
+
+                        promise.then(onFulfillment)
+                        promise.catch(onRejection)
+
+                        const onFulfillment(result){
+                            console.log(result) //"abcde"
+                        }
+
+                        const onRejection(error){
+                            console.log(error)
+                        }
+                can use promise.then(onFulfillment, onRejection)    //without catch
+                .then() and .catch() return a promise => chaining promise
+                static method: 
+                Promise.all(): all promise resolve
+                    Promise.all([promise1, promise2, promise3]).then((values) => {
+                        console.log(values)
+                    })
+                Promise.allSettled(): all promise complete
+                    Promise.all([promise1, promise2, promise3]).then((values) => {
+                        console.log(values)
+                    })
+                Promise.race()
+            Async Await:
+                async await keyword allow us to write sync-looking code while performing async task behind the scenes
+                async: use to declare async function, async function always return a promise
+                    async function greet(){return "hello"}
+                    greet().then((value)=> console.log(value))  //"hello"
+                await: use in front of any async function to pause code until that promise settles and return its value, only work inside async fucntion 
+
+                sequential & concurrent & parallel
+            Even Loop:
+                Check if stack is empty => push from queue to stack
+        Fetching: 
+            https://www.youtube.com/watch?v=VmQ6dHvnKIM
+
+REDUX:
+    state của ứng dụng được giữ trong một nơi gọi là store và mỗi componentđều có thể access bất kỳ state nào mà chúng muốn từ chúng store này.
+    Có 3 thành phần của Redux: Actions, Store, Reducers
+    Actions:
+        đơn giản là các events. Chúng là cách mà chúng ta send data từ app đến Redux store. Những data này có thể là từ sự tương tác của user vs app, API calls hoặc cũng có thể là từ form submission.
+        have 2 properties type: unique identifier and payload which has data
+    Reducers: Reducers là các function nguyên thủy chúng lấy state hiện tại của app, thực hiện một action và trả về một state mới. Những states này được lưu như những objects và chúng định rõ cách state của một ứng dụng thay đổi trong việc phản hồi một action được gửi đến store.
+    Store: Store lưu trạng thái ứng dụng và nó là duy nhất trong bất kỳ một ứng dụng Redux nào.
+    Dispatch: send actions to update data
+
+OTHER FILES:
+    Java: 
+        POM.xml: 
+            is a Project Object Model, is the fundamental unit of work in Maven. It is an XML file that contains information about the project and configuration details used by Maven to build the project. It contains default values for most projects
+            When executing a task or goal, Maven looks for the POM in the current directory. It reads the POM, gets the needed configuration information, then executes the goal.
+        mvnw.cmd & mvnw: 
+            The Maven Wrapper is an easy way to ensure a user of your Maven build has everything necessary to run your Maven build.
+            These files are from Maven wrapper. It works similarly to the Gradle wrapper.
+            This allows you to run the Maven project without having Maven installed and present on the path (without installing a maven distribution in your machine.). It downloads the correct Maven version if it's not NotFound
+            These files allow the users to have a fully encapsulated build system. So instead of setting up maven, PATH variables like M2_HOME, etc, the wrapper provides a self-contained build system.
+            mvnw files are not necessarily part of our projects. However, including them could be beneficial. For example, it will allow anyone cloning our project to build it without installing Maven.
+        gitignore: 
+            gitignore file tells Git which files to ignore when committing your project to the GitHub repository
+        target folder:
+            The target folder is the maven default output folder. When a project is build or packaged, all the content of the sources, resources and web files will be put inside of it, it will be used for construct the artifacts and for run tests
+        .idea folder:
+            Project settings are stored with each specific project as a set of xml files under the .idea folder. If you specify the default project settings, these settings will be automatically used for each newly created project.
+        .mvn folder:
+            The Maven Wrapper is an easy way to ensure a user of your Maven build has everything necessary to run your Maven build.
+        scratch file:
+            A scratch file is a temporary computer file which you use as a work area or as a store while a program is operating
+        scratches and consoles folder:
+            IDE configuration directory
+    Nextjs:
+        tsconfig.ts file:
+            The tsconfig.json file allows you to specify the root level files and the compiler options that requires to compile a TypeScript project. The presence of this file in a directory specifies that the said directory is the TypeScript project root.
+        postCSS:
+            PostCSS is a JavaScript tool that transforms your CSS code into an abstract syntax tree (AST) and then provides an API (application programming interface) for analyzing and modifying it using JavaScript plugins.
+            postcss-js allows you to write styles in JS or transform React Inline Styles, Radium or JSS
+        postcss.config.js:
+        tailwind.config.js:
+            Because Tailwind is a framework for building bespoke user interfaces, it has been designed from the ground up with customization in mind.
+            By default, Tailwind will look for an optional tailwind.config.js file at the root of your project where you can define any customizations.    
+        package.js
+            All npm packages contain a file, usually in the project root, called package. json - this file holds various metadata relevant to the project. This file is used to give information to npm that allows it to identify the project as well as handle the project's dependencies.
+            dependencies:
+                it consists of all the packages that are used in the project with its version number. So, whenever you install any library that is required in your project that library you can find it in the dependencies object. 
+                --> npm install <package name>
+            devDependencies:
+                it consists of all the packages that are used in the project in its development phase and not in the production or testing environment with its version number. So, whenever you want to install any library that is required only in your development phase then you can find it in the dev Dependencies object. 
+                --> npm install <package name> --save-dev
+            peerDependencies:
+                it consists of all the packages that are exactly required in the project or to the person who is downloading and the version numbers should also be the same. That is the reason they were named as peerDependencies. The best example is ‘react’ which is common in every project to run similarly. 
+            version:
+                >, >=, <, <=:  before version (>=1.2.3)
+                Tilde Ranges: Allows patch-level changes if a minor version is specified on the comparator. Allows minor-level changes if not.
+                    ~1.2.3 := >=1.2.3 <1.(2+1).0 := >=1.2.3 <1.3.0-0
+                Caret Ranges: Allows changes that do not modify the left-most non-zero element
+                    ^1.2.3 := >=1.2.3 <2.0.0-0
+                    ^0.2.3 := >=0.2.3 <0.3.0-0
+                    ^0.0.3 := >=0.0.3 <0.0.4-0
+        package-lock.js
+            The goal of package-lock. json file is to keep track of the exact version of every package that is installed so that a product is 100% reproducible in the same way even if packages are updated by their maintainers
+        next-env.d.ts:
+            A file named next-env.d.ts will be created in the root of your project. This file ensures Next.js types are picked up by the TypeScript compiler.
+
+
+DOCKER:
+    is a tool for running app in an isolated environment
+    similar to virtual machine but faster and dont need OS 
+    standard for software deployment
+    Containers: are an abstraction at the app layer that packages code and dependencies together. Multi containers can run on the same machine and share OS kernel, each running is an isolated processsess in user space
+	Docker image: is a template for creating an environment of your choice (database, web, app,...). Can create many snapshot and swap. Has everything need to run.
+    Docker container: is a running instance of an image
+	
+	
+    docker --verision: check version
+	docker ps: list containter
+    go to hub.docker.com and download (docker pull nginx)
+    docker images: list all images
+    docker image rm imageID/name
+    docker rmi imageID/name
+    docker container ls: list all container
+    run an instance from image: docker run imageName:version
+    run an instance from image in detached mode: docker run -d imageName:version
+    docker stop containerID/containerName: stop container
+    Exposing port:
+        a container is running in port 80
+        localhost:8080
+        => port 8080 must map to 80
+        => to do it: docker run -d -p 8080:80 nginx:latest
+    Exposing multi port:
+        map many ports to 1 port:
+        => docker run -d -p 8080:80 -p 3000:80 nginx:latest
+    Managing container:
+        docker start containerID/Name (exist in history)
+        => show history: docker ps -a (detail) or docker ps -aq (show ID only)
+        ==> delete container: docker rm containerID 
+        ==> delete all: docker rm $(docker ps -aq)
+        cannot remove running container ==> docker rm -f $(docker ps -ag) //force delete
+    Naming container:
+        docker run --name xxx -d -p 8080:80 -p 3000:80 nginx:latest
+    Formating docker ps:
+        docker ps --format="ID\t{{.ID}}\nNAME\t{{.Names}}\nImage\t{{.Image}}\nPORTS\t{{.Ports}}\nCOMMAND\t{{.Command}}\nCREATED\t{{.CreatedAt}}\nSTATUS\t{{.Status}}\n"
+        set variable for format string:
+            SET FORMAT= "ID\t{{.ID}}\nNAME\t{{.Names}}\nIMAGE\t{{.Image}}\nPORTS\t{{.Ports}}\nCOMMAND\t{{.Command}}\nCREATED\t{{.CreatedAt}}\nSTATUS\t{{.Status}}\n"
+            => docker ps --format=%FORMAT%
+    Docker Volumes:
+        allows sharing data (file & folder) between host and container/ between containers
+        docker run --name some-nginx -v /some/content:/usr/share/nginx/html:ro -d nginx //clear ro for if want to change data in container disk
+
+        go to folder want to map in host:
+            docker run --name website -v C:/Users/namhtbui/Downloads/VolumeDocker:/usr/share/nginx/html:ro -d -p 8080:80 nginx
+        add index.html => content show is index.html
+        command to go to disk of container:
+            docker exec -it containerName bash
+    Sharing Volumes between container:
+        docker run --name abc --volumes-from website -d -p 8081:80 nginx
+    Dockerfile: BUILD IMAGE
+        build own images: alist of steps,... to create images => run images built from Dockerfile
+        dont need to mount host volume to container disk
+
+        FROM baseImages:version
+        ADD . /usr/share/nginx/html         //add all in current directory to destination
+
+        WORKDIR /app        //use app directory in container disk, if dont exist -> create
+        RUN npm install                 // allow pass few arguments
+        CMD node index.js
+    Building image from Dockerfile
+        go to directory holding Data
+
+        docker build --tag name:tag .      //website:latest     //. means where is dockerfile
+
+        build container from it: docker run --name website -d -p 9000:80 website:latest
+    DockerIgnore
+    Caching & layer
+        caching when create again image
+        ==> chỉ change/update image vs những gì thay đổi 
+
+        FROM node:latest
+        WORKDIR /app
+        ADD package*.json ./     //
+        RUN npm install         // two row help dont update install npm package when it dont change
+        ADD . .
+        CMD node index.js
+    Alpine
+        make container require no more than 8 MB and a minimal installation to disk requires around 130MB of storage
+        verision: alpine 
+        docker pull node:lts-alpine         //lts = latest
+    Tagging image:
+        create new repo with other tag: docker tag website:latest website:1
+    Push image to remote
+    Inspect:    docker inspect imageID/name
+    Logs:   docker logs imageID/name
+            docker logs -f imageID/name //update real time
+    
+    Docker network:
+        deploy 2 containers in same network => can talk to each other
+        docker network ls: list all network
+        docker network create nameNetwork: create a network
+
+        to run container in same network:
+        ex with mongodb:    docker run -p ... -d -e username pass... --name ... --net networkName mongo
+
+    Docker compose: Run multi docker Containers, take care if creating a common network => do not specify network (BUILD CONTAINER)
+        docker-compose.yaml: take whole commands into a file
+
+        version: '3'    //version of docker compose
+        service:
+            mongodb:        //container name
+                image: mongo        //image
+                ports:
+                    -27017:27017    //host:container
+                environment:
+                    -MONGO...USERNAME=admin
+                    -...PASSWORD=password
+            mongo-express:
+                image: mongo-express
+                ports:
+                    -8080:8080
+                environment:
+                    ....
+        
+
+
+        go to directory contain docker.yaml => docker-compose -f mongo.yaml up  //up: start all container in yaml
+
+        docker-compose -f mongo.yaml down   //stopping and remove
+        
+		Can have many RUN commands, but only have 1 CMD commands
+		docker exec -it IDcontainer /bin/sh
+		persist volumn
+
+
+
+	MICROSERVICES:
+	Spring boot: build microservices
+	Spring cloud: make services community with ech others
+	Spring security: make secure for microservices
+	
+	1 services có thể có nhìu instance ==> cần 1 server để quản lý (Eureka server)
+	tất cả instance của service sẽ dc register để eureka có thông tin
+	1 service A gửi request tới Eureka, Eureka tìm address của service B mà A cần, Eureka gửi address của B cho A, A request tới B 
+	=> (Có thể xảy ra bottle neck_
+
+
+	Spring sludle: tracing request từ các service
+	
+	Load balancers
+	
+	Message Queue: place request trong queue --> biết chắc nó sẽ dc thực hiện --> k cần đợi 1 khoảng tg cho đến khi có KQ
+
+
+
+
+            
+
+
+
+
+
+                
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    
+
+
+
+
+
+
+
+     
+
+        
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+    
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
